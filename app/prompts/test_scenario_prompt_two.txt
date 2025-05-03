@@ -1,0 +1,7 @@
+"""Please provide the test scenarios in the following JSON format. For the scenario descriptions, use concise, title-like wording, ensuring they are generic and cover broader functional areas. 
+Each scenario should focus on an overarching behavior or feature, rather than specific test cases.
+JSON Response:
+```
+{ "scenarios": [ "Scenario 1 Concise Title", "Scenario 2 Concise Title", "Scenario 3 Concise Title", ...]}
+```
+"""
