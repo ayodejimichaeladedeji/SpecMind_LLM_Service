@@ -6,4 +6,5 @@ pool:
 
 steps:
   - script: docker login -u $(USERNAME) -p $(PASSWORD)
-  - script: docker build -t llm-service:$(Build.BuildId) .
+  - script: docker build -t $(USERNAME)/llm-service:$(Build.BuildId) .
+  - script: docker push $(USERNAME)/llm-service:$(Build.BuildId)
