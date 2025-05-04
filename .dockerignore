@@ -1,0 +1,37 @@
+# Python-related files
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+
+# Environment files
+.env
+
+# Dockerfile and build-related files
+Dockerfile
+.dockerignore
+
+# Local development files
+.vscode
+.idea
+*.iml
+
+# Virtual environments
+venv
+env
+.venv
+.env/
+
+# Git-related files
+.git
+.gitignore
+
+# Logs
+*.log
+
+# Temporary files
+tmp/
+*.bak
+*.swp
