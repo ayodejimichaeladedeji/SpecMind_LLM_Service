@@ -1,14 +1,16 @@
-# app/services/gemini_service.py
 import os
 import json
-from pathlib import Path
+import logging
 from google import genai
 from dotenv import load_dotenv
+from app.errors.error import Error
 import typing_extensions as typing
 from app.utilities.utils import Utility
 from app.interfaces.llm_provider import LLMProvider
 
 load_dotenv()
+
+logger = logging.getLogger(__name__)
 
 class TestScenarios(typing.TypedDict):
     scenarios: list[str]
@@ -23,9 +25,6 @@ class GeminiService(LLMProvider):
     async def generate_scenarios(self, requirement: str) -> list[str]:
         try:
             prompt = Utility.load_prompt("test_scenario_prompt_one.txt", data={"requirement": requirement}) + "\n" + Utility.load_prompt("test_scenario_prompt_two.txt")
-            
-            if not prompt:
-                return []
 
             client = genai.Client(api_key=self.api_key)
 
@@ -41,19 +40,13 @@ class GeminiService(LLMProvider):
 
             generated_text = response.text
             return json.loads(generated_text)
-        except json.JSONDecodeError as e:
-            print(f"Error decoding JSON: {e}")
-            return None
         except Exception as e:
-            print(f"Error generating scenarios: {e}")
-            return []
+            logger.exception(f"Error generating test scenario: {e}")
+            raise Error("An error occured. Please try again later", 500)
         
     async def generate_test_cases(self, scenario: str) -> list[str]:
         try:
             prompt = Utility.load_prompt("test_case_prompt_one.txt", data={"scenario": scenario}) + "\n" + Utility.load_prompt("test_case_prompt_two.txt")
-            
-            if not prompt:
-                return {}
 
             client = genai.Client(api_key=self.api_key)
 
@@ -69,9 +62,6 @@ class GeminiService(LLMProvider):
 
             generated_text = response.text
             return json.loads(generated_text)
-        except json.JSONDecodeError as e:
-            print(f"Error decoding JSON: {e}")
-            return None
         except Exception as e:
-            print(f"Error generating test cases: {e}")
-            return {}
+            logger.exception(f"Error generating test cases: {e}")
+            raise Error("An error occured. Please try again later", 500)

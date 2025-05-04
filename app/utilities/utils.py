@@ -1,4 +1,8 @@
 from pathlib import Path
+from app.errors.error import Error
+
+import logging
+logger = logging.getLogger(__name__)
 
 class Utility:
     @staticmethod
@@ -6,12 +10,6 @@ class Utility:
         try:
             base_dir = Path(__file__).resolve().parent.parent
             prompt_file_path = base_dir / "prompts" / file_name
-
-            # with open(prompt_file_path, "r", encoding="utf-8") as file:
-            #     if data:
-            #         prompt = file.read().format(requirement=data.strip())
-            #     else:
-            #         prompt = file.read()
 
             with open(prompt_file_path, "r", encoding="utf-8") as file:
                 prompt_template = file.read()
@@ -23,5 +21,6 @@ class Utility:
 
             return prompt
         except Exception as e:
-            print(f"Error loading prompt file '{file_name}': {e}")
-            return ""
+            logger.exception(f"Error loading prompt file '{file_name}'")
+            raise Error(f"An error occured. Please try again later '{file_name}': {e}")
+        

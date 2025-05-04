@@ -1,10 +1,6 @@
 from abc import ABC, abstractmethod
 
 class LLMProvider(ABC):
-    # @abstractmethod
-    # def load_prompt(self, requirement: str) -> str:
-    #     pass
-
     @abstractmethod
     async def generate_scenarios(self, requirement: str) -> list[str]:
         pass
