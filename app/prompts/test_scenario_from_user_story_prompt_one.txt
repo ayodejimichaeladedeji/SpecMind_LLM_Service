@@ -1,0 +1,8 @@
+"""You are a QA engineer. Please analyze the following user story document.
+Identify all functional requirements, user interactions, and system behaviors described.
+Based on these, generate a comprehensive list of high-level, generic test scenarios.
+Focus on covering the major functionalities and user flows, ignoring
+any non-functional details (e.g., performance, security) unless explicitly
+requested as a functional behavior.
+
+Document: {document_content}"""

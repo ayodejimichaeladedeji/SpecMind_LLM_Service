@@ -1,9 +1,9 @@
-from fastapi import FastAPI
-from app.errors.error import Error 
 from fastapi import FastAPI, Request
-from fastapi.responses import JSONResponse
-from app.api.routes import APIResponse, router
 from fastapi.exceptions import RequestValidationError
+from fastapi.responses import JSONResponse
+
+from app.api.routes import APIResponse, router
+from app.errors.error import Error
 
 app = FastAPI()
 
@@ -13,12 +13,11 @@ app.include_router(router)
 async def custom_error_handler(request: Request, ex: Error):
     return JSONResponse(
         status_code=ex.status_code,
-        content={
-            "isSuccess": False,
-            "body": None,
-            "message": "An error occurred",
-            "errorMessage": ex.message,
-        }
+        content=APIResponse(
+            isSuccess=False,
+            message="An error occurred",
+            errorMessage=ex.message,
+        ).model_dump()
     )
 
 @app.exception_handler(RequestValidationError)

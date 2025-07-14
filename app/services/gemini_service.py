@@ -16,7 +16,7 @@ class TestScenarios(typing.TypedDict):
     scenarios: list[str]
 
 class TestCases(typing.TypedDict):
-    scenarios: list[str]
+    cases: list[str]
 
 class GeminiService(LLMProvider):
     def __init__(self):
@@ -42,7 +42,7 @@ class GeminiService(LLMProvider):
             return json.loads(generated_text)
         except Exception as e:
             logger.exception(f"Error generating test scenario: {e}")
-            raise Error("An error occured. Please try again later", 500)
+            raise Error("An error occurred. Please try again later", 500)
         
     async def generate_test_cases(self, scenario: str) -> list[str]:
         try:
@@ -64,4 +64,26 @@ class GeminiService(LLMProvider):
             return json.loads(generated_text)
         except Exception as e:
             logger.exception(f"Error generating test cases: {e}")
-            raise Error("An error occured. Please try again later", 500)
+            raise Error("An error occurred. Please try again later", 500)
+
+    async def generate_scenarios_from_user_story(self, document_content: str) -> list[str]:
+        try:
+            prompt = Utility.load_prompt("test_scenario_from_user_story_prompt_one.txt", data={"document_content": document_content}) + "\n" + Utility.load_prompt("test_scenario_from_user_story_prompt_two.txt")
+
+            client = genai.Client(api_key=self.api_key)
+
+            response = client.models.generate_content(
+                model="gemini-2.0-flash",
+                config=genai.types.GenerateContentConfig(
+                    temperature=0.7,
+                    response_mime_type="application/json",
+                    response_schema=TestScenarios,
+                ),
+                contents=prompt
+            )
+
+            generated_text = response.text
+            return json.loads(generated_text)
+        except Exception as e:
+            logger.exception(f"Error generating test scenario: {e}")
+            raise Error("An error occurred. Please try again later", 500)
