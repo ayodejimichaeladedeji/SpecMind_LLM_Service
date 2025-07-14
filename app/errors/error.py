@@ -5,5 +5,5 @@ class Error(Exception):
         self.status_code = status_code
     
     def __str__(self):
-        return f"Error: {self.message}"
+        return f"{self.message}"
     

@@ -1,7 +1,6 @@
 from typing import Annotated
 from pydantic import BaseModel, StringConstraints, field_validator
 
-
 class ScenarioRequest(BaseModel):
     requirement: Annotated[str, StringConstraints(min_length=1)]
 

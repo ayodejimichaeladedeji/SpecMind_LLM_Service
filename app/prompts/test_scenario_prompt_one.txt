@@ -1,3 +1,5 @@
-"""You are a QA engineer. Given the following requirement, generate a list of high level, generic test scenarios that cover the major functionalities and behaviors related to that requirement.
+"""You are a QA engineer. Given the following requirement, 
+generate a list of high level, generic test scenarios that cover 
+the major functionalities and behaviors related to that requirement.
 
 Requirement: {requirement}"""
